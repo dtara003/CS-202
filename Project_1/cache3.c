@@ -14,7 +14,7 @@ int main() {
     int n = 2048;
     printf("n = %d", n);
     printf("\n");
-    int B = 16;
+    int B = 8;
     printf("B = %d", B);
     printf("\n\n");
     
