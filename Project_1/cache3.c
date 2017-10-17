@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 double randVal() {
     double div = RAND_MAX / 9.0;
@@ -86,6 +87,8 @@ int main() {
     
     printf("IJK in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // clear c1 for use again
     /*for (i = 0; i < n; i++) {
@@ -112,6 +115,8 @@ int main() {
     end = clock();
     
     printf("JIK in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n");
     
     // check error against simple IJK
@@ -148,6 +153,8 @@ int main() {
     
     printf("KIJ in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // check error against simple IJK
     for (i = 0; i < n; i++) {
@@ -182,6 +189,8 @@ int main() {
     end = clock();
     
     printf("IKJ in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n");
     
     // check error against simple IJK
@@ -218,6 +227,8 @@ int main() {
     
     printf("JKI in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // check error against simple IJK
     for (i = 0; i < n; i++) {
@@ -252,6 +263,8 @@ int main() {
     end = clock();
     
     printf("KJI in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n\n");
     
     // check error against simple IJK
@@ -291,6 +304,8 @@ int main() {
     end = clock();
     
     printf("blocked IJK in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n");
     
     // check error against simple IJK
@@ -336,6 +351,8 @@ int main() {
     
     printf("blocked JIK in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // check error against simple IJK
     for (i = 0; i < n; i++) {
@@ -377,6 +394,8 @@ int main() {
     end = clock();
     
     printf("blocked KIJ in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n");
     
     // check error against simple IJK
@@ -420,6 +439,8 @@ int main() {
     
     printf("blocked IKJ in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // check error against simple IJK
     for (i = 0; i < n; i++) {
@@ -462,6 +483,8 @@ int main() {
     
     printf("blocked JKI in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
     printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+    printf("\n");
     
     // check error against simple IJK
     for (i = 0; i < n; i++) {
@@ -503,6 +526,8 @@ int main() {
     end = clock();
     
     printf("blocked KJI in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+    printf("\n");
+    printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
     printf("\n\n");
     
     // check error against simple IJK
