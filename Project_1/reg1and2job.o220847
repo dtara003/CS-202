@@ -1,0 +1,78 @@
+n = 64
+
+dgemm0 in seconds: 0.000000
+GFLOPS: inf
+dgemm1 in seconds: 0.010000
+GFLOPS: 0.0000000524288000
+dgemm2 in seconds: 0.000000
+GFLOPS: inf
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
+n = 128
+
+dgemm0 in seconds: 0.030000
+GFLOPS: 0.0000001398101333
+dgemm1 in seconds: 0.020000
+GFLOPS: 0.0000002097152000
+dgemm2 in seconds: 0.010000
+GFLOPS: 0.0000004194304000
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
+n = 256
+
+dgemm0 in seconds: 0.270000
+GFLOPS: 0.0000001242756741
+dgemm1 in seconds: 0.180000
+GFLOPS: 0.0000001864135111
+dgemm2 in seconds: 0.080000
+GFLOPS: 0.0000004194304000
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
+n = 512
+
+dgemm0 in seconds: 2.460000
+GFLOPS: 0.0000001091201041
+dgemm1 in seconds: 1.690000
+GFLOPS: 0.0000001588375479
+dgemm2 in seconds: 0.750000
+GFLOPS: 0.0000003579139413
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
+n = 1024
+
+dgemm0 in seconds: 26.700000
+GFLOPS: 0.0000000804300992
+dgemm1 in seconds: 18.680000
+GFLOPS: 0.0000001149616514
+dgemm2 in seconds: 8.630000
+GFLOPS: 0.0000002488393567
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
+n = 2048
+
+dgemm0 in seconds: 303.390000
+GFLOPS: 0.0000000566263528
+dgemm1 in seconds: 169.350000
+GFLOPS: 0.0000001014459355
+dgemm2 in seconds: 81.230000
+GFLOPS: 0.0000002114966045
+
+MAX DIFFERENCE:
+comparing dgemm0 and dgemm1: 0.000000
+comparing dgemm0 and dgemm2: 0.000000 
+
