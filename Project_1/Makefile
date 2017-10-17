@@ -1,4 +1,4 @@
-all: reg1and2 reg3 cache3
+all: reg1and2 reg3 cache3 cache4
 
 reg1and2:reg1and2.c
 	gcc -o reg1and2 reg1and2.c -lm
@@ -8,6 +8,9 @@ reg3:reg3.c
 
 cache3:cache3.c
 	gcc -o cache3 cache3.c -lm
+	
+cache4:cache4.c
+	gcc -o cache4 cache4.c -lm
 
 clean:
 	-rm -f reg1and2.o reg3.o cache3.o
