@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 double randVal() {
     double div = RAND_MAX / 9.0;
@@ -72,6 +73,8 @@ int main() {
         
         printf("dgemm0 in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
         printf("\n");
+        printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
+        printf("\n");
         
         start = clock();
         
@@ -91,6 +94,8 @@ int main() {
         end = clock();
         
         printf("dgemm1 in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+        printf("\n");
+        printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
         printf("\n");
         
         start = clock();
@@ -131,6 +136,8 @@ int main() {
         end = clock();
         
         printf("dgemm2 in seconds: %f", ((double)(end - start)) / CLOCKS_PER_SEC);
+        printf("\n");
+        printf("GFLOPS: %.16f", 2*((double)pow(n,3))/((((double)(end - start)))*pow(10,9)));
         printf("\n\n");
         
         // max difference between c1 and c2 and between c1 and c3
@@ -152,6 +159,7 @@ int main() {
         
         printf("MAX DIFFERENCE:\ncomparing dgemm0 and dgemm1: %f", diff1);
         printf("\ncomparing dgemm0 and dgemm2: %f \n\n", diff2);
+        
         
         // free memory
         for (i = 0; i < n; i++) {
