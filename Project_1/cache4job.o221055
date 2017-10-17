@@ -1,0 +1,8 @@
+n = 2048
+B = 16
+
+blocked IJK in seconds: 17.480000
+GFLOPS: 0.0000009828300449
+combined cache and register reuse for IJK in seconds: 3.140000
+GFLOPS: 0.0000054712959185
+MAX DIFFERENCE: 0.000000
