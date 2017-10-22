@@ -2,8 +2,8 @@ n = 64
 
 dgemm0 in seconds: 0.000000
 GFLOPS: inf
-dgemm1 in seconds: 0.010000
-GFLOPS: 0.0000000524288000
+dgemm1 in seconds: 0.000000
+GFLOPS: inf
 dgemm2 in seconds: 0.000000
 GFLOPS: inf
 
