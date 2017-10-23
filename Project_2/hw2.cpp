@@ -44,10 +44,10 @@ int main()
 	    1
 	};*/
 	
-	int nSize[5] = {2, 1000, 2000, 3000, 4000, 5000};
+	int nSize[6] = {2, 1000, 2000, 3000, 4000, 5000};
 	
 	int x;
-    for (x = 0; x < 6; x++) {
+    for (x = 0; x < 1; x++) {
         int n = nSize[x];
         char    TRANS = 'N';
         int     INFO = n;
@@ -62,7 +62,7 @@ int main()
         double* B = (double*)malloc(n * sizeof(double));
         
         // generate random matrices
-        for (i = 0; i < (n * n); i++) {
+        for (int i = 0; i < (n * n); i++) {
             if (i < n) {
                 A[i] = randVal();
                 B[i] = randVal();
@@ -71,6 +71,18 @@ int main()
             }
         }
         
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << A[i * n + j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+
+	for (int i = 0; i < n; i++) {
+		cout << B[i] << endl;
+	}
+	
         // LU factorization
         LAPACK_dgetrf(&N,&N,A,&LDA,IPIV,&INFO);
     
