@@ -9,7 +9,7 @@ double randVal() {
 }
 
 void mydgetrf(double* A, double* B) {
-    n = 2;
+    int n = 2;
     for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			cout << A[i * n + j] << " ";
