@@ -120,7 +120,7 @@ int main()
         }
         cout << "}" << endl;
         
-        mydgetrf(&A2, &B2);
+        mydgetrf(A2, B2);
         
         free(A); free(B); free(A2); free(B2);
     }
