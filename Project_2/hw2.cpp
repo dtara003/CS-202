@@ -121,9 +121,11 @@ int main()
         }
         cout << "}" << endl;
         
+	// cout << "GOT HERE" << endl;
         mydgetrf(A2, B2);
+        // cout << "AND HERE" << endl;
         
-        free(A); free(B); free(A2); free(B2);
+	free(A); free(B); free(A2); free(B2);
     }
     
     return 0;
