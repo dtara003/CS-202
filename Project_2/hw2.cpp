@@ -88,7 +88,7 @@ void mydtrsm1(double* A, double* B, int* pvt, double* y, int n) {
     for (int i = 1; i < n; i++) {
         double sum = 0.0;
         for (int j = 0; j < i - 1; j++) {
-            sum += y[j] * A[i * n +j];
+            sum += y[j] * A[i * n + j];
         }
         y[i] = B[pvt[i]] - sum;
     }
@@ -97,7 +97,7 @@ void mydtrsm1(double* A, double* B, int* pvt, double* y, int n) {
 }
 
 void mydtrsm2(double* A, double* x, double* y, int n) {
-    x[n - 1] = y[n- 1] / A[n * n + n];
+    x[n - 1] = y[n - 1] / A[(n - 1) * (n - 1) + (n - 1)];
     
     for (int i = n - 2; i >= 0; i--) {
         double sum = 0.0;
