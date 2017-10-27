@@ -167,6 +167,13 @@ int main()
             }
         }
         
+        // transpose A
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                A[j * n + i] = A[i * n + j];
+            }
+        }
+        
         x[0] = 0.0;
         y[0] = 0.0;
         
