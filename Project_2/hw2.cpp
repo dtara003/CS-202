@@ -158,23 +158,19 @@ int main()
         // generate random matrices
         for (int i = 0; i < (n * n); i++) {
             if (i < n) {
-                A[i] = randVal();
+                A2[i] = randVal();
                 B[i] = randVal();
-                A2[i] = A[i];
                 B2[i] = B[i];
                 pvt[i] = i;
             } else {
-                A[i] = randVal();
-                A2[i] = A[i];
+                A2[i] = randVal();
             }
         }
         
         // transpose A
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                double temp = A[j * n + i];
-                A[j * n + i] = A[i * n + j];
-                A[i * n + j] = temp;
+                A[j][i] = A2[i][j];
             }
         }
         
