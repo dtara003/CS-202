@@ -172,7 +172,9 @@ int main()
         // transpose A
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
+                double temp = A[j * n + i];
                 A[j * n + i] = A[i * n + j];
+                A[i * n + j] = temp;
             }
         }
         
