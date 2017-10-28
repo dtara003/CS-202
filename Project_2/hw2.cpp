@@ -170,7 +170,7 @@ int main()
         // transpose A
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                A[j][i] = A2[i][j];
+                A[j * n + i] = A2[i * n + j];
             }
         }
         
