@@ -21,7 +21,7 @@ void mydgetrf(double* A, double* B, int* pvt, int n) {
     	}
     cout << endl;*/
     
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i < n; i++) {
         // pivot
         int maxind = i;
         double max = abs(A[i * n + i]);
@@ -182,6 +182,7 @@ int main()
         y[0] = 0.0;
         
         // output for debugging
+        cout << "A TRANSPOSED = " << endl;
     	for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			cout << A[i * n + j] << " ";
@@ -189,6 +190,15 @@ int main()
     		cout << endl;
     	}
     	cout << endl;
+    	cout << "A = " << endl;
+    	for (int i = 0; i < n; i++) {
+    		for (int j = 0; j < n; j++) {
+    			cout << A2[i * n + j] << " ";
+    		}
+    		cout << endl;
+    	}
+    	cout << endl;
+    	cout << "B = " << endl;
     	for (int i = 0; i < n; i++) {
     		cout << B[i] << endl;
     	}
