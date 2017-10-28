@@ -3,6 +3,7 @@
 #include "blas.h"
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -68,7 +69,7 @@ void mydgetrf(double* A, double* B, int* pvt, int n) {
     }
     
     // check contents
-    cout << "MY LU DECOMP:" << endl << endl << "A = " << endl;
+    /*cout << "MY LU DECOMP:" << endl << endl << "A = " << endl;
     for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			cout << A[i * n + j] << " ";
@@ -79,7 +80,7 @@ void mydgetrf(double* A, double* B, int* pvt, int n) {
     for (int i = 0; i < n; i++) {
         cout << pvt[i] << endl;
     }
-    cout << endl;
+    cout << endl;*/
     
     return;
 }
@@ -115,20 +116,6 @@ void mydtrsm2(double* A, double* x, double* y, int n) {
 int main()
 {
     srand(time(NULL));
-    
-    /*double  A[9] =
-	{
-	    1, 2, 1,
-	    2, 1, 1,
-	    3, 1, 1
-	};
-    
-    double B[3] =
-	{
-	    1,
-	    1,
-	    1
-	};*/
 	
 	int nSize[6] = {2, 1000, 2000, 3000, 4000, 5000};
 	
@@ -143,7 +130,7 @@ int main()
         int     NRHS = 1;
         int     IPIV[n];
         
-        cout << "n = " << n << endl;
+        cout << "n = " << n << endl << endl;
         
         // allocate arrays
         double* A = (double*)malloc(n * n * sizeof(double));
@@ -167,19 +154,16 @@ int main()
                 A2[i] = randVal();
             }
         }
-        
         // transpose A
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 A[j * n + i] = A2[i * n + j];
             }
         }
-        
-        x[0] = 0.0;
-        y[0] = 0.0;
+        x[0] = 0.0; y[0] = 0.0;
         
         // output for debugging
-        cout << "A TRANSPOSED = " << endl;
+        /*cout << "A TRANSPOSED = " << endl;
     	for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			cout << A[i * n + j] << " ";
@@ -199,13 +183,19 @@ int main()
     	for (int i = 0; i < n; i++) {
     		cout << B[i] << endl;
     	}
-    	cout << endl;
+    	cout << endl;*/
 	
+	    clock_t start, end;
+	    
+	    start = clock();
         // LU factorization
         LAPACK_dgetrf(&N,&N,A,&LDA,IPIV,&INFO);
+        end = clock();
         
+        cout << "LAPACK time: " << 1000 * (end - start) / CLOCKS_PER_SEC << endl;
+        cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000);
         // check contents
-        cout << "LAPACK LU DECOMP:" << endl << endl << "A = " << endl;
+        /*cout << "LAPACK LU DECOMP:" << endl << endl << "A = " << endl;
         for (int i = 0; i < n; i++) {
         		for (int j = 0; j < n; j++) {
         			cout << A[i * n + j] << " ";
@@ -216,7 +206,7 @@ int main()
         for (int i = 0; i < n; i++) {
             cout << IPIV[i] << endl;
         }
-        cout << endl;
+        cout << endl;*/
     
         char     SIDE = 'L';
         char     UPLO = 'L';
@@ -237,13 +227,13 @@ int main()
         
         // forward  L(Ux) = B => y = Ux
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,A, &N, B, &N);
-        cout << "LAPACK FORWARD RESULT" << endl;
+        /*cout << "LAPACK FORWARD RESULT" << endl;
 	for( int j = 0; j < n; j++) {
 		cout << B[j] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
 
-	UPLO = 'U';
+	    UPLO = 'U';
         DIAG = 'N';
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,A, &N, B, &N);
@@ -261,12 +251,12 @@ int main()
         
         // forward substitution
         mydtrsm1(A2, B2, pvt, y, n);
-        cout << "MY FORWARD RESULT" << endl;
-	for (int j = 0; j < n; j++) {
-		cout << y[j] << " ";
-	}
-	cout << endl;
-	// backward substitution
+        /*cout << "MY FORWARD RESULT" << endl;
+    	for (int j = 0; j < n; j++) {
+    		cout << y[j] << " ";
+    	}
+    	cout << endl;*/
+    	// backward substitution
         mydtrsm2(A2, x, y, n);
         
         cout << endl;
