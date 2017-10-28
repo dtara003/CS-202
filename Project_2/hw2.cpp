@@ -21,7 +21,7 @@ void mydgetrf(double* A, double* B, int* pvt, int n) {
     	}
     cout << endl;*/
     
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n - 1; i++) {
         // pivot
         int maxind = i;
         double max = abs(A[i * n + i]);
@@ -162,6 +162,7 @@ int main()
                 B[i] = randVal();
                 B2[i] = B[i];
                 pvt[i] = i;
+                IPIV[i] = i;
             } else {
                 A2[i] = randVal();
             }
