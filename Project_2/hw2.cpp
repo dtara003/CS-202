@@ -89,7 +89,7 @@ void mydtrsm1(double* A, double* B, int* pvt, double* y, int n) {
     
     for (int i = 1; i < n; i++) {
         double sum = 0.0;
-        for (int j = 0; j < i - 1; j++) {
+        for (int j = 0; j < i; j++) {
             sum += y[j] * A[i * n + j];
         }
         y[i] = B[pvt[i]] - sum;
@@ -99,7 +99,7 @@ void mydtrsm1(double* A, double* B, int* pvt, double* y, int n) {
 }
 
 void mydtrsm2(double* A, double* x, double* y, int n) {
-    x[n - 1] = y[n - 1] / A[(n - 1) * (n - 1) + (n - 1)];
+    x[n - 1] = y[n - 1] / A[(n - 1) * n + (n - 1)];
     
     for (int i = n - 2; i >= 0; i--) {
         double sum = 0.0;
@@ -130,7 +130,7 @@ int main()
 	    1
 	};*/
 	
-	int nSize[6] = {3, 1000, 2000, 3000, 4000, 5000};
+	int nSize[6] = {2, 1000, 2000, 3000, 4000, 5000};
 	
 	int x;
     for (x = 0; x < 1; x++) {
@@ -237,7 +237,13 @@ int main()
         
         // forward  L(Ux) = B => y = Ux
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,A, &N, B, &N);
-        UPLO = 'U';
+        cout << "LAPACK FORWARD RESULT" << endl;
+	for( int j = 0; j < n; j++) {
+		cout << B[j] << " ";
+	}
+	cout << endl;
+
+	UPLO = 'U';
         DIAG = 'N';
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,A, &N, B, &N);
@@ -255,7 +261,12 @@ int main()
         
         // forward substitution
         mydtrsm1(A2, B2, pvt, y, n);
-        // backward substitution
+        cout << "MY FORWARD RESULT" << endl;
+	for (int j = 0; j < n; j++) {
+		cout << y[j] << " ";
+	}
+	cout << endl;
+	// backward substitution
         mydtrsm2(A2, x, y, n);
         
         cout << endl;
