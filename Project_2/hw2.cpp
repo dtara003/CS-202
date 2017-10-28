@@ -68,16 +68,18 @@ void mydgetrf(double* A, double* B, int* pvt, int n) {
     }
     
     // check contents
-    /*for (int i = 0; i < n; i++) {
+    cout << "MY LU DECOMP:" << endl << endl << "A = " << endl;
+    for (int i = 0; i < n; i++) {
     		for (int j = 0; j < n; j++) {
     			cout << A[i * n + j] << " ";
     		}
     		cout << endl;
     	}
-    cout << endl;
+    cout << endl << "pivot = " << endl;
     for (int i = 0; i < n; i++) {
         cout << pvt[i] << endl;
-    }*/
+    }
+    cout << endl;
     
     return;
 }
@@ -192,6 +194,20 @@ int main()
 	
         // LU factorization
         LAPACK_dgetrf(&N,&N,A,&LDA,IPIV,&INFO);
+        
+        // check contents
+        cout << "LAPACK LU DECOMP:" << endl << endl << "A = " << endl;
+        for (int i = 0; i < n; i++) {
+        		for (int j = 0; j < n; j++) {
+        			cout << A[i * n + j] << " ";
+        		}
+        		cout << endl;
+        	}
+        cout << endl << "pivot = " << endl;
+        for (int i = 0; i < n; i++) {
+            cout << IPIV[i] << endl;
+        }
+        cout << endl;
     
         char     SIDE = 'L';
         char     UPLO = 'L';
@@ -221,7 +237,7 @@ int main()
         int i;
         for (i=0;i<N;i++)
         {
-    	cout << B[i] << " ";
+    	    cout << B[i] << " ";
         }
         cout << "}" << endl;
         
@@ -237,8 +253,6 @@ int main()
         for (int i = 0; i < n; i++) {
             cout << x[i] << endl;
         }
-        
-        
         
 	    free(A); free(B); free(A2); free(B2); free(pvt); free(x); free(y);
     }
