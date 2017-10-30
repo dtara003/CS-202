@@ -109,21 +109,21 @@ void mydtrsm2(double* A, double* x, double* y, int n) {
     
     return;
 }
-void dgemm3(double* A, double* B, double* C, int i, int k, int n) {
+void dgemm3(double* A, double* B, double* C, int i, int k, int n, int block) {
     int j = i;
     int k2 = i;
     
-    for (i; i < n; i += 10) {
-        for (k; k < k2; k += 10) {
-            for (j; j < n; j += 10) {
-                for (int i1 = i; i1 < i + 10 && i1 < n; i1 += 4) {
-                    for (int j1 = j; j1 < j + 10 && j1 < n; j1 += 2) {
+    for (i; i < n; i += block) {
+        for (k; k < k2; k += block) {
+            for (j; j < n; j += block) {
+                for (int i1 = i; i1 < i + block && i1 < n; i1 += 4) {
+                    for (int j1 = j; j1 < j + block && j1 < n; j1 += 2) {
                         register double c00 = C[i1 * n + j1];               register double c20 = C[(i1 + 2) * n + j1];
                         register double c01 = C[i1 * n + (j1 + 1)];         register double c21 = C[(i1 + 2) * n + (j1 + 1)];
                         register double c10 = C[(i1 + 1) * n + j1];         register double c30 = C[(i1 + 3) * n + j1];
                         register double c11 = C[(i1 + 1) * n + (j1 + 1)];   register double c31 = C[(i1 + 3) * n + (j1 + 1)];
                         
-                        for (int k1 = k; k1 < k + 10 && k1 < k2; k1 += 2) {
+                        for (int k1 = k; k1 < k + block && k1 < k2; k1 += 2) {
                             register double a0 = A[i1 * n + k1];            register double a2 = A[(i1 + 2) * n + k1];
                             register double a1 = A[(i1 + 1) * n + k1];      register double a3 = A[(i1 + 3) * n + k1];
                             
@@ -159,16 +159,16 @@ void dgemm3(double* A, double* B, double* C, int i, int k, int n) {
 void myblockeddgetrf(double* A, int* pvt, int n, int block) {
     double max;
     
-    // pivoting
     for (int i = 0; i < n; i += block) {
-        for (int j = i; j < i + block && j < n; j++) {
-            int maxind = j;
-            max = abs(A[j * n + j]);
+        
+        for (int i1 = i; i1 < i + block && i1 < n; i1++) {
+            int maxind = i1;
+            max = abs(A[i1 * n + i1]);
             
-            for (int t = j + 1; t < n; t++) {
-                if (abs(A[t * n + j]) > max) {
+            for (int t = i1 + 1; t < n; t++) { // was t = i1 only
+                if (abs(A[t * n + i1]) > max) {
                     maxind = t;
-                    max = abs(A[t * n + j]);
+                    max = abs(A[t * n + i1]);
                 }
             }
             
@@ -176,30 +176,29 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
                 cout << "LU factorization failed: coefficient matrix is singular" << endl;
                 return;
             } else {
-                if (maxind != j) {
-                    // save pivoting information
-                    int temps = pvt[j];
-                    pvt[j] = pvt[maxind];
+                if (maxind != i1) {
+                    int temps = pvt[i1];
+                    pvt[i1] = pvt[maxind];
                     pvt[maxind] = temps;
                     
                     // perform swap on rows
                     double* tempv = (double*)malloc(n * sizeof(double));
                     
-                    for (int k = 0; k < n; k++) {
-                        tempv[k] = A[j * n + k];
-                        A[j * n + k] = A[maxind * n + k];
-                        A[maxind * n + k] = tempv[k];
+                    for (int j = 0; j < n; j++) {
+                        tempv[j] = A[i1 * n + j];
+                        A[i1 * n + j] = A[maxind * n + j];
+                        A[maxind * n + j] = tempv[j];
                     }
                     
                     free(tempv);
                 }
             }
             
-            for (int k = j + 1; k < n; k++) {
-                A[k * n + j] = A[k * n + j] / A[j * n + j];
+            for (int j = i1 + 1; j < n; j++) {
+                A[j * n + i1] = A[j * n + i1] / A[i1 * n + i1];
                 
-                for (int m = j + 1; m < j + block && m < n; k++) {
-                    A[k * n + m] = A[k * n + m] - A[k * n + j] * A[j * n + m];
+                for (int k = i1 + 1; k < i1 + block && k < n; k++) {
+                    A[j * n + k] = A[j * n + k] - A[j * n + i1] * A[i1 * n + k];
                 }
             }
         }
@@ -210,19 +209,17 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
             tmp = n;
         }
         
-        // factorization
-        for (int j = i; j < i + block - 1 && j < n - 1; j++) {
-            for (int k = j; k < i + block && k < n; k++) {
-                for (int m = tmp; m < n; m++) {
-                    A[k * n + m] -= A[k * n + j] * A[j * n + m];
+        for (int i1 = i; i1 < i + block - 1 && i1 < n - 1; i1++) {
+            for (int j = i1; j < i + block && j < n; j++) {
+                for (int k = tmp; k < n; k++) {
+                    A[j * n + k] -= A[j * n + i1] * A[i1 * n + k];
                 }
                 
                 // A[i1 * n + j] -= sum;
             }
         }
         
-        // call dgemm3
-        dgemm3(A, A, A, tmp, i, n);
+        dgemm3(A, A, A, tmp, i, n, 60);
         
     }
     
@@ -388,9 +385,9 @@ int main()
     		}
     	}
     	if (maxDiff < 0.0001) {
-    	    cout << "Error less than 1e-3." << endl;
+    	    cout << "Error check - max difference: " << setpricision(3) << maxDiff << endl;
     	} else {
-    		cout << "***ERROR GREATER THAN 1e-3.***" << endl;
+    		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
     	cout << endl;
     	
@@ -415,9 +412,9 @@ int main()
     		}
     	}
     	if (maxDiff < 0.0001) {
-    	    cout << "Error less than 1e-3." << endl;
+    	    cout << "Error check - max difference: " << setpricision(3) << maxDiff << endl;
     	} else {
-    		cout << "***ERROR GREATER THAN 1e-3.***" << endl;
+    		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
     	cout << endl;
     	
