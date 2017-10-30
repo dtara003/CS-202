@@ -308,7 +308,7 @@ int main()
         // LU factorization
         LAPACK_dgetrf(&N,&N,A,&LDA,IPIV,&INFO);
         end = clock();
-        cout << "LAPACK execution time: " << (end - start) / CLOCKS_PER_SEC << endl;
+        cout << "LAPACK execution time: " << (end - start) / (double)CLOCKS_PER_SEC << endl;
         cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000) << endl;
         // check contents
         /*cout << "LAPACK LU DECOMP:" << endl << endl << "A = " << endl;
@@ -361,7 +361,7 @@ int main()
         start = clock();
 	    mydgetrf(A2, B2, pvt, n);
         end = clock();
-    	cout << "MYDGETRF execution time: " << (end - start) / CLOCKS_PER_SEC << endl;
+    	cout << "MYDGETRF execution time: " << (end - start) / (double)CLOCKS_PER_SEC << endl;
     	cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000) << endl; 
         // forward substitution
         mydtrsm1(A2, B2, pvt, y, n);
@@ -399,7 +399,7 @@ int main()
     	start = clock();
     	myblockeddgetrf(A3, pvt, n, block);
     	end = clock();
-        cout << "BLOCKED execution time: " << (end - start) / CLOCKS_PER_SEC << endl;
+        cout << "BLOCKED execution time: " << (end - start) / (double)CLOCKS_PER_SEC << endl;
     	cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000) << endl; 
         mydtrsm1(A3, B3, pvt, y, n);
         mydtrsm2(A3, x, y, n);
@@ -411,12 +411,11 @@ int main()
     			maxDiff = tempDiff;
     		}
     	}
-    	cout << "Error check - max difference: " << maxDiff << endl;
     	if (maxDiff < 0.0001) {
-    	    maxDiff = 0.000;
+    	    cout << "Error check - max difference: " << setpricision(3) << maxDiff << endl;
     		cout << maxDiff << endl;
     	} else {
-    		cout << "ERROR GREATAER THAN 1e-3." << endl;
+    		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
     	cout << endl;
     	
