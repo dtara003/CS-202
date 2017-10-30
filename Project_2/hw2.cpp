@@ -116,46 +116,64 @@ void dgemm3(double* A, double* B, double* C, int i, int k, int n, int block) {
     int j = i;
     int k2 = i;
     
+    // modified IJK BLOCK algorithm
     for (i; i < n; i += block) {
-        for (k; k < k2; k += block) {
-            for (j; j < n; j += block) {
-                for (int i1 = i; i1 < i + block && i1 < n; i1 += 4) {
-                    for (int j1 = j; j1 < j + block && j1 < n; j1 += 2) {
-                        register double c00 = C[i1 * n + j1];               register double c20 = C[(i1 + 2) * n + j1];
-                        register double c01 = C[i1 * n + (j1 + 1)];         register double c21 = C[(i1 + 2) * n + (j1 + 1)];
-                        register double c10 = C[(i1 + 1) * n + j1];         register double c30 = C[(i1 + 3) * n + j1];
-                        register double c11 = C[(i1 + 1) * n + (j1 + 1)];   register double c31 = C[(i1 + 3) * n + (j1 + 1)];
+        for (k; j < j2; j += block) {
+            for (k; k < n; k += block) {
+                for (int m = i; m < i + block && m < n; m += 4) {
+                    for (int n = k; n < k + block && n < n; n += 2) {
+                        // pull C to register and then store back into C later
+                        register double c0 = C[m * n + n];               register double c4 = C[(m + 2) * n + n];
+                        register double c1 = C[m * n + (n + 1)];         register double c5 = C[(m + 2) * n + (n + 1)];
+                        register double c2 = C[(m + 1) * n + n];         register double c6 = C[(m + 3) * n + n];
+                        register double c3 = C[(m + 1) * n + (n + 1)];   register double c7 = C[(m + 3) * n + (n + 1)];
                         
-                        for (int k1 = k; k1 < k + block && k1 < k2; k1 += 2) {
-                            register double a0 = A[i1 * n + k1];            register double a2 = A[(i1 + 2) * n + k1];
-                            register double a1 = A[(i1 + 1) * n + k1];      register double a3 = A[(i1 + 3) * n + k1];
+                        for (int p = j; p < j + block && p < k2; p += 2) {
+                            // pull A and B portions to registers
+                            // performing Ijj on 4 x 2 matrix
+                            register double a0 = A[m * n + p];            register double a2 = A[(m + 2) * n + p];
+                            register double a1 = A[(m + 1) * n + p];      register double a3 = A[(m + 3) * n + p];
+                            register double b0 = B[p * n + n];            register double b1 = B[p * n + (n + 1)];
                             
-                            register double b0 = B[k1 * n + j1];            register double b1 = B[k1 * n + (j1 + 1)];
+                            // subtract from previous C values
+                            c0 = c0 - a0 * b0;    c1 = c1 - a0 * b1;
+                            // new A value because old one done being used
+                            a0 = A[m * n + (p + 1)];
+                            c2 = c2 - a1 * b0;    c3 = c3 - a1 * b1;
+                            // new A value because old one done being used
+                            a1 = A[(m + 1) * n + p + 1];
+                            c4 = c4 - a2 * b0;    c5 = c5 - a2 * b1;
+                            // new A value because old one done being used
+                            a2 = A[(m + 2) * n + p + 1];
+                            c6 = c4 - a3 * b0;    c7 = c7 - a3 * b1;
+                            // new A value because old one done being used
+                            a3 = A[(m + 3) * n + p + 1];
+                            // new B value because old one done being used
+                            b0 = B[(p + 1) * n + n]; b1 = B[(p + 1) * n + (n + 1)];
                             
-                            c00 = c00 - a0 * b0;    c01 = c01 - a0 * b1;
-                            a0 = A[i1 * n + (k1 + 1)];
-                            c10 = c10 - a1 * b0;    c11 = c11 - a1 * b1;
-                            a1 = A[(i1 + 1) * n + k1 + 1];
-                            c20 = c20 - a2 * b0;    c21 = c21 - a2 * b1;
-                            a2 = A[(i1 + 2) * n + k1 + 1];
-                            c30 = c20 - a3 * b0;    c31 = c31 - a3 * b1;
-                            a3 = A[(i1 + 3) * n + k1 + 1];
-                            b0 = B[(k1 + 1) * n + j1]; b1 = B[(k1 + 1) * n + (j1 + 1)];
-                            
-                            c00 = c00 - a0 * b0;    c01 = c01 - a0 * b1;
-                            c10 = c10 - a1 * b0;    c11 = c11 - a1 * b1;
-                            c20 = c20 - a2 * b0;    c21 = c21 - a2 * b1;
-                            c30 = c20 - a3 * b0;    c31 = c31 - a3 * b1;
+                            c0 = c0 - a0 * b0;    c1 = c1 - a0 * b1;
+                            c2 = c2 - a1 * b0;    c3 = c3 - a1 * b1;
+                            c4 = c4 - a2 * b0;    c5 = c5 - a2 * b1;
+                            c6 = c4 - a3 * b0;    c7 = c7 - a3 * b1;
                         }
-                        C[i1 * n + j1] = c00;               C[(i1 + 2) * n + j1] = c20;
-                        C[i1 * n + (j1 + 1)] = c01;         C[(i1 + 2) * n + (j1 + 1)] = c21;
-                        C[(i1 + 1) * n + j1] = c10;         C[(i1 + 3) * n + j1] = c30;
-                        C[(i1 + 1) * n + (j1 + 1)] = c11;   C[(i1 + 3) * n + (j1 + 1)] = c31;
+                        // store back into C
+                        C[m * n + n] = c0;               C[(m + 2) * n + n] = c4;
+                        C[m * n + (n + 1)] = c1;         C[(m + 2) * n + (n + 1)] = c5;
+                        C[(m + 1) * n + n] = c2;         C[(m + 3) * n + n] = c6;
+                        C[(m + 1) * n + (n + 1)] = c3;   C[(m + 3) * n + (n + 1)] = c7;
                     }
                 }
             }
         }
     }
+    
+    /*for (int i = 0; i < n; i++) {
+    		for (int j = 0; j < n; j++) {
+    			cout << C[i * n + j] << " ";
+    		}
+    		cout << endl;
+    	}
+    cout << endl;*/
     
     return;
 }
@@ -172,15 +190,14 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
     double max;
     
     for (int i = 0; i < n; i += block) {
-        
-        for (int i1 = i; i1 < i + block && i1 < n; i1++) {
-            int maxind = i1;
-            max = abs(A[i1 * n + i1]);
+        for (int j = i; j < i + block && j < n; j++) {
+            int maxind = j;
+            max = abs(A[j * n + j]);
             
-            for (int t = i1 + 1; t < n; t++) { // was t = i1 only
-                if (abs(A[t * n + i1]) > max) {
+            for (int t = j + 1; t < n; t++) {
+                if (abs(A[t * n + j]) > max) {
                     maxind = t;
-                    max = abs(A[t * n + i1]);
+                    max = abs(A[t * n + j]);
                 }
             }
             
@@ -189,29 +206,31 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
                 cout << "LU factorization failed: coefficient matrix is singular" << endl;
                 return;
             } else {
-                if (maxind != i1) {
-                    int temps = pvt[i1];
-                    pvt[i1] = pvt[maxind];
+                if (maxind != j) {
+                    // store pivot
+                    int temps = pvt[j];
+                    pvt[j] = pvt[maxind];
                     pvt[maxind] = temps;
                     
                     // perform swap on rows
                     double* tempv = (double*)malloc(n * sizeof(double));
+                    tempv[0] = 0.0;
                     
-                    for (int j = 0; j < n; j++) {
-                        tempv[j] = A[i1 * n + j];
-                        A[i1 * n + j] = A[maxind * n + j];
-                        A[maxind * n + j] = tempv[j];
+                    for (int k = 0; k < n; k++) {
+                        tempv[k] = A[j * n + k];
+                        A[j * n + k] = A[maxind * n + k];
+                        A[maxind * n + k] = tempv[k];
                     }
                     
                     free(tempv);
                 }
             }
             
-            for (int j = i1 + 1; j < n; j++) {
-                A[j * n + i1] = A[j * n + i1] / A[i1 * n + i1];
+            for (int k = j + 1; k < n; k++) {
+                A[k * n + j] = A[k * n + j] / A[j * n + j];
                 
-                for (int k = i1 + 1; k < i1 + block && k < n; k++) {
-                    A[j * n + k] = A[j * n + k] - A[j * n + i1] * A[i1 * n + k];
+                for (int m = j + 1; m < j + block && m < n; m++) {
+                    A[k * n + m] = A[k * n + m] - A[k * n + j] * A[j * n + m];
                 }
             }
             
@@ -236,17 +255,17 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
             tmp = n;
         }
         
-        for (int i1 = i; i1 < i + block - 1 && i1 < n - 1; i1++) {
-            for (int j = i1; j < i + block && j < n; j++) {
-                for (int k = tmp; k < n; k++) {
-                    A[j * n + k] -= A[j * n + i1] * A[i1 * n + k];
+        for (int j = i; j < i + block - 1 && j < n - 1; j++) {
+            for (int k = j; k < i + block && k < n; k++) {
+                for (int m = tmp; m < n; m++) {
+                    A[k * n + m] -= A[k * n + j] * A[j * n + m];
                 }
                 
                 // A[i1 * n + j] -= sum;
             }
         }
         
-        dgemm3(A, A, A, tmp, i, n, 60);
+        dgemm3(A, A, A, tmp, i, n, 20);
         
     }
     
@@ -275,7 +294,7 @@ int main()
 	
 	int x;
     for (x = 0; x < 3; x++) {
-        int block = 10;
+        int block = 20;
         int n = nSize[x];
         char    TRANS = 'N';
         int     INFO = n;
