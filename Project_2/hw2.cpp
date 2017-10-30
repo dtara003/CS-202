@@ -117,10 +117,10 @@ int main()
 {
     srand(time(NULL));
 	
-	int nSize[6] = {2, 1000, 2000, 3000, 4000, 5000};
+	int nSize[5] = {1000, 2000, 3000, 4000, 5000};
 	
 	int x;
-    for (x = 0; x < 1; x++) {
+    for (x = 0; x < 5; x++) {
         int n = nSize[x];
         char    TRANS = 'N';
         int     INFO = n;
@@ -192,8 +192,8 @@ int main()
         LAPACK_dgetrf(&N,&N,A,&LDA,IPIV,&INFO);
         end = clock();
         
-        cout << "LAPACK time: " << 1000 * (end - start) / CLOCKS_PER_SEC << endl;
-        cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000);
+        cout << "LAPACK execution time: " << (end - start) / CLOCKS_PER_SEC << endl;
+        cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000) << endl;
         // check contents
         /*cout << "LAPACK LU DECOMP:" << endl << endl << "A = " << endl;
         for (int i = 0; i < n; i++) {
@@ -238,17 +238,21 @@ int main()
         // backward Ux = y
         dtrsm_(&SIDE,&UPLO,&TRANS,&DIAG,&N,&M,&a,A, &N, B, &N);
         
-        cout << "print the result : { ";
+        /*cout << "print the result : { ";
         int i;
         for (i=0;i<N;i++)
         {
     	    cout << B[i] << " ";
         }
-        cout << "}" << endl;
+        cout << "}" << endl;*/
         
         // LU decomposition
-        mydgetrf(A2, B2, pvt, n);
-        
+        start = clock();
+	mydgetrf(A2, B2, pvt, n);
+        end = clock();
+	
+	cout << "MYDGETRF execution time: " << (end - start) / CLOCKS_PER_SEC << endl;
+	cout << "GFLOPS: " << (2.0/3) * n * n * n * CLOCKS_PER_SEC / ((end - start) * 1000000000) << endl; 
         // forward substitution
         mydtrsm1(A2, B2, pvt, y, n);
         /*cout << "MY FORWARD RESULT" << endl;
@@ -259,12 +263,27 @@ int main()
     	// backward substitution
         mydtrsm2(A2, x, y, n);
         
-        cout << endl;
+        /*cout << endl;
         for (int i = 0; i < n; i++) {
             cout << x[i] << endl;
-        }
+        }*/
         
-	    free(A); free(B); free(A2); free(B2); free(pvt); free(x); free(y);
+	double maxDiff = 0.0;
+	for (int i = 0; i < n; i++) {
+		double tempDiff = abs(B[i] - x[i]);
+		if (tempDiff > maxDiff) {
+			maxDiff = tempDiff;
+		}
+	}
+	cout << "Error check - max difference: " << maxDiff << endl;
+	if (maxDiff < 0.0001) {
+		cout << "Error < 1e-3. Negligable." << endl;
+	} else {
+		cout << "ERROR GREATAER THAN 1e-3." << endl;
+	}
+	cout << endl;
+	
+	free(A); free(B); free(A2); free(B2); free(pvt); free(x); free(y);
     }
     
     return 0;
