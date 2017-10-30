@@ -7,10 +7,13 @@
 
 using namespace std;
 
+// generates a random value
 double randVal() {
     double div = RAND_MAX / 9.0;
     return (rand() / div);
 }
+
+// part 1.2 implementation of LU decomposition and merge
 void mydgetrf(double* A, double* B, int* pvt, int n) {
     // check contents
     /*for (int i = 0; i < n; i++) {
@@ -157,6 +160,15 @@ void dgemm3(double* A, double* B, double* C, int i, int k, int n, int block) {
     return;
 }
 void myblockeddgetrf(double* A, int* pvt, int n, int block) {
+    // check contents
+    /*for (int i = 0; i < n; i++) {
+    		for (int j = 0; j < n; j++) {
+    			cout << A[i * n + j] << " ";
+    		}
+    		cout << endl;
+    	}
+    cout << endl;*/
+    
     double max;
     
     for (int i = 0; i < n; i += block) {
@@ -172,6 +184,7 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
                 }
             }
             
+            // check validity before moving on
             if (max == 0.0) {
                 cout << "LU factorization failed: coefficient matrix is singular" << endl;
                 return;
@@ -201,6 +214,20 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
                     A[j * n + k] = A[j * n + k] - A[j * n + i1] * A[i1 * n + k];
                 }
             }
+            
+            // check contents
+            /*cout << "CURRENT DECOMP:" << endl << endl << "A = " << endl;
+            for (int i = 0; i < n; i++) {
+            		for (int j = 0; j < n; j++) {
+            			cout << A[i * n + j] << " ";
+            		}
+            		cout << endl;
+            	}
+            cout << endl << "pivot = " << endl;
+            for (int i = 0; i < n; i++) {
+                cout << pvt[i] << endl;
+            }
+            cout << endl;*/
         }
         int tmp;
         if (i + block < n) {
@@ -222,6 +249,20 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
         dgemm3(A, A, A, tmp, i, n, 60);
         
     }
+    
+    // check contents
+    /*cout << "MY LU DECOMP:" << endl << endl << "A = " << endl;
+    for (int i = 0; i < n; i++) {
+    		for (int j = 0; j < n; j++) {
+    			cout << A[i * n + j] << " ";
+    		}
+    		cout << endl;
+    	}
+    cout << endl << "pivot = " << endl;
+    for (int i = 0; i < n; i++) {
+        cout << pvt[i] << endl;
+    }
+    cout << endl;*/
     
     return;
 }
@@ -389,7 +430,6 @@ int main()
     	} else {
     		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
-    	cout << endl;
     	
     	// clear pvt and x and y for use again
     	for (int i = 0; i < n; i++) {
