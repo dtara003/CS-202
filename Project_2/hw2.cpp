@@ -385,7 +385,7 @@ int main()
     		}
     	}
     	if (maxDiff < 0.0001) {
-    	    cout << "Error check - max difference: " << setpricision(3) << maxDiff << endl;
+    	    cout << "Error less than 1e-3." << endl;
     	} else {
     		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
@@ -412,7 +412,7 @@ int main()
     		}
     	}
     	if (maxDiff < 0.0001) {
-    	    cout << "Error check - max difference: " << setpricision(3) << maxDiff << endl;
+    	    cout << "Error less than 1e-3." << endl;
     	} else {
     		cout << "ERROR GREATER THAN 1e-3." << endl;
     	}
