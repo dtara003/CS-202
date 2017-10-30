@@ -1,0 +1,55 @@
+n = 1000
+
+LAPACK execution time: 0.49
+GFLOPS: 1.36054
+MYDGETRF execution time: 4.81
+GFLOPS: 0.1386
+Error less than 1e-3.
+BLOCKED execution time: 0.21
+GFLOPS: 3.1746
+Error less than 1e-3.
+
+n = 2000
+
+LAPACK execution time: 4.01
+GFLOPS: 1.33001
+MYDGETRF execution time: 39.39
+GFLOPS: 0.135398
+Error less than 1e-3.
+BLOCKED execution time: 0.86
+GFLOPS: 6.20155
+Error less than 1e-3.
+
+n = 3000
+
+LAPACK execution time: 13.48
+GFLOPS: 1.33531
+MYDGETRF execution time: 135.62
+GFLOPS: 0.132724
+Error less than 1e-3.
+BLOCKED execution time: 2.02
+GFLOPS: 8.91089
+Error less than 1e-3.
+
+n = 4000
+
+LAPACK execution time: 32.14
+GFLOPS: 1.32753
+MYDGETRF execution time: 320.01
+GFLOPS: 0.133329
+Error less than 1e-3.
+BLOCKED execution time: 3.5
+GFLOPS: 12.1905
+Error less than 1e-3.
+
+n = 5000
+
+LAPACK execution time: 67.12
+GFLOPS: 1.24156
+MYDGETRF execution time: 641.41
+GFLOPS: 0.129922
+Error less than 1e-3.
+BLOCKED execution time: 5.53
+GFLOPS: 15.0693
+Error less than 1e-3.
+
