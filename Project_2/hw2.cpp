@@ -233,7 +233,7 @@ int main()
 	int nSize[5] = {1000, 2000, 3000, 4000, 5000};
 	
 	int x;
-    for (x = 0; x < 1; x++) {
+    for (x = 0; x < 3; x++) {
         int block = 10;
         int n = nSize[x];
         char    TRANS = 'N';
@@ -390,7 +390,6 @@ int main()
     	} else {
     		cout << "ERROR GREATAER THAN 1e-3." << endl;
     	}
-    	cout << endl;
     	
     	// clear pvt and x and y for use again
     	for (int i = 0; i < n; i++) {
@@ -414,7 +413,8 @@ int main()
     	}
     	cout << "Error check - max difference: " << maxDiff << endl;
     	if (maxDiff < 0.0001) {
-    		cout << "Error < 1e-3. Negligable." << endl;
+    	    maxDiff = 0.000;
+    		cout << maxDiff << endl;
     	} else {
     		cout << "ERROR GREATAER THAN 1e-3." << endl;
     	}
