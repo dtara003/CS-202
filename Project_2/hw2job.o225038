@@ -5,8 +5,8 @@ GFLOPS: 1.36054
 MYDGETRF execution time: 4.81
 GFLOPS: 0.1386
 Error less than 1e-3.
-BLOCKED execution time: 0.21
-GFLOPS: 3.1746
+BLOCKED execution time: 0.13
+GFLOPS: 5.12821
 Error less than 1e-3.
 
 n = 2000
@@ -16,8 +16,8 @@ GFLOPS: 1.33001
 MYDGETRF execution time: 39.39
 GFLOPS: 0.135398
 Error less than 1e-3.
-BLOCKED execution time: 0.86
-GFLOPS: 6.20155
+BLOCKED execution time: 0.5
+GFLOPS: 10.6667
 Error less than 1e-3.
 
 n = 3000
@@ -27,8 +27,8 @@ GFLOPS: 1.33531
 MYDGETRF execution time: 135.62
 GFLOPS: 0.132724
 Error less than 1e-3.
-BLOCKED execution time: 2.02
-GFLOPS: 8.91089
+BLOCKED execution time: 1.14
+GFLOPS: 15.7895
 Error less than 1e-3.
 
 n = 4000
@@ -38,8 +38,8 @@ GFLOPS: 1.32753
 MYDGETRF execution time: 320.01
 GFLOPS: 0.133329
 Error less than 1e-3.
-BLOCKED execution time: 3.5
-GFLOPS: 12.1905
+BLOCKED execution time: 2.13
+GFLOPS: 20.0313
 Error less than 1e-3.
 
 n = 5000
@@ -49,7 +49,7 @@ GFLOPS: 1.24156
 MYDGETRF execution time: 641.41
 GFLOPS: 0.129922
 Error less than 1e-3.
-BLOCKED execution time: 5.53
-GFLOPS: 15.0693
+BLOCKED execution time: 4.53
+GFLOPS: 25.0693
 Error less than 1e-3.
 
