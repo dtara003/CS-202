@@ -115,7 +115,7 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
     for (int i = 0; i < n; i += block) {
         
         for (int i1 = i; i1 < i + block && i1 < n; i1++) {
-            maxind = i1;
+            itn maxind = i1;
             max = abs(A[i1 * n + i1]);
             
             for (int t = i1 + 1; t < n; t++) { // was t = i1 only
@@ -163,8 +163,8 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
         }
         
         for (int i1 = i; i1 < i + block - 1 && i1 < n - 1; i1++) {
-            for (j = i1; j < i + block && j < n; j++) {
-                for (k = tmp; k < n; k++) {
+            for (int j = i1; j < i + block && j < n; j++) {
+                for (int k = tmp; k < n; k++) {
                     A[j * n + k] -= A[j * n + i1] * A[i1 * n + k];
                 }
                 
@@ -172,7 +172,7 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
             }
         }
         
-        dgemm3(A, A, A, tmp, tmp, i, tmp, n, 60);
+        dgemm3(A, A, A, tmp, i, n, 60);
         
     }
     
@@ -187,36 +187,36 @@ void dgemm3(double* A, double* B, double* C, int i, int k, int n, int block) {
             for (j; j < n; j += block) {
                 for (int i1 = i; i1 < i + block && i1 < n; i1 += 4) {
                     for (int j1 = j; j1 < j + block && j1 < n; j1 += 2) {
-                        register double c00 = c[i1 * n + j1];               register double c20 = c[(i1 + 2) * n + j1];
-                        register double c01 = c[i1 * n + (j1 + 1)];         register double c21 = c[(i1 + 2) * n + (j1 + 1)];
-                        register double c10 = c[(i1 + 1) * n + j1];         register double c30 = c[(i1 + 3) * n + j1];
-                        register double c11 = c[(i1 + 1) * n + (j1 + 1)];   register double c31 = c[(i1 + 3) * n + (j1 + 1)];
+                        register double c00 = C[i1 * n + j1];               register double c20 = C[(i1 + 2) * n + j1];
+                        register double c01 = C[i1 * n + (j1 + 1)];         register double c21 = C[(i1 + 2) * n + (j1 + 1)];
+                        register double c10 = C[(i1 + 1) * n + j1];         register double c30 = C[(i1 + 3) * n + j1];
+                        register double c11 = C[(i1 + 1) * n + (j1 + 1)];   register double c31 = C[(i1 + 3) * n + (j1 + 1)];
                         
                         for (int k1 = k; k1 < k + block && k1 < k2; k1 += 2) {
-                            register double a0 = a[i1 * n + k1];            register double a2 = a[(i1 + 2) * n + k1];
-                            register double a1 = a[(i1 + 1) * n + k1];      register double a2 = a[(i1 + 3) * n + k1];
+                            register double a0 = A[i1 * n + k1];            register double a2 = A[(i1 + 2) * n + k1];
+                            register double a1 = A[(i1 + 1) * n + k1];      register double a3 = A[(i1 + 3) * n + k1];
                             
-                            register double b0 = b[k1 * n + j1];            register double b1 = b[k1 * n + (j1 + 1)];
+                            register double b0 = B[k1 * n + j1];            register double b1 = B[k1 * n + (j1 + 1)];
                             
                             c00 = c00 - a0 * b0;    c01 = c01 - a0 * b1;
-                            a0 = a[i1 * n + (k1 + 1)];
+                            a0 = A[i1 * n + (k1 + 1)];
                             c10 = c10 - a1 * b0;    c11 = c11 - a1 * b1;
-                            a1 = a[(i1 + 1) * n + k1 + 1];
+                            a1 = A[(i1 + 1) * n + k1 + 1];
                             c20 = c20 - a2 * b0;    c21 = c21 - a2 * b1;
-                            a2 = a[(i1 + 2) * n + k1 + 1];
+                            a2 = A[(i1 + 2) * n + k1 + 1];
                             c30 = c20 - a3 * b0;    c31 = c31 - a3 * b1;
-                            a3 = a[(i1 + 3) * n + k1 + 1];
-                            b0 = b[(k1 + 1) * n + j1]; b1 = b[(k1 + 1) * n + (j1 + 1)];
+                            a3 = A[(i1 + 3) * n + k1 + 1];
+                            b0 = B[(k1 + 1) * n + j1]; b1 = B[(k1 + 1) * n + (j1 + 1)];
                             
                             c00 = c00 - a0 * b0;    c01 = c01 - a0 * b1;
                             c10 = c10 - a1 * b0;    c11 = c11 - a1 * b1;
                             c20 = c20 - a2 * b0;    c21 = c21 - a2 * b1;
                             c30 = c20 - a3 * b0;    c31 = c31 - a3 * b1;
                         }
-                        c[i1 * n + j1] = c00;               c[(i1 + 2) * n + j1] = c20;
-                        c[i1 * n + (j1 + 1)] = c01;         c[(i1 + 2) * n + (j1 + 1)] = c21;
-                        c[(i1 + 1) * n + j1] = c10;         c[(i1 + 3) * n + j1] = c30;
-                        c[(i1 + 1) * n + (j1 + 1)] = c11;   c[(i1 + 3) * n + (j1 + 1)] = c31;
+                        C[i1 * n + j1] = c00;               C[(i1 + 2) * n + j1] = c20;
+                        C[i1 * n + (j1 + 1)] = c01;         C[(i1 + 2) * n + (j1 + 1)] = c21;
+                        C[(i1 + 1) * n + j1] = c10;         C[(i1 + 3) * n + j1] = c30;
+                        C[(i1 + 1) * n + (j1 + 1)] = c11;   C[(i1 + 3) * n + (j1 + 1)] = c31;
                     }
                 }
             }
