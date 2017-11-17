@@ -265,7 +265,7 @@ void myblockeddgetrf(double* A, int* pvt, int n, int block) {
             }
         }
         
-        dgemm3(A, A, A, tmp, i, n, 60);
+        dgemm3(A, A, A, tmp, i, n, 20);
         
     }
     
@@ -294,7 +294,7 @@ int main()
 	
 	int x;
     for (x = 0; x < 3; x++) {
-        int block = 10;
+        int block = 20;
         int n = nSize[x];
         char    TRANS = 'N';
         int     INFO = n;
