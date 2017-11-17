@@ -1,26 +1,24 @@
 #include <mpi.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 #define BLOCK_LOW(id,p,n)  ((id)*(n)/(p))
 
-#define BLOCK_HIGH(id,p,n)
-        ( BLOCK_LOW((id)+1,p,n)-1 ) 
+#define BLOCK_HIGH(id,p,n) ( BLOCK_LOW((id)+1,p,n)-1 ) 
 
-#define BLOCK_SIZE(id,p,n)
-        (BLOCK_LOW( (id)+1, p, n) -  
-         BLOCK_LOW( (id), p, n  ) )
+#define BLOCK_SIZE(id,p,n) (BLOCK_LOW( (id)+1, p, n) - BLOCK_LOW( (id), p, n  ) )
 
-#define BLOCK_OWNER(index,p,n)
-        ( ( ((p)*(index)+1)-1 ) / (n) )
+#define BLOCK_OWNER(index,p,n) ( ( ((p)*(index)+1)-1 ) / (n) )
 
-#define MIN(a,b)  ((a)<(b)?(a):(b))
+#define MIN(a,b) ((a)<(b)?(a):(b))
 
 int main (int argc, char *argv[])
 {
     int index, id, p, count;
     double elapsed_time;
-    unsigned long long int i, n, low_value, high_value, size, proc0_size, prime, first;
+    unsigned long long int i, n, low_value, high_value, size, proc0_size, prime, first, global_count;
     char *marked;
     
    MPI_Init(&argc, &argv);
@@ -32,7 +30,7 @@ int main (int argc, char *argv[])
           if (!id) printf ("Command line: %s <m>\n", argv[0]);
           MPI_Finalize(); exit (1);
     }
-   n = atoi(argv[1]);
+   n = atoll(argv[1]);
    low_value = 2 + BLOCK_LOW(id,p,n-1);
    high_value = 2 + BLOCK_HIGH(id,p,n-1);
    size = BLOCK_SIZE(id,p,n-1);
@@ -72,7 +70,7 @@ int main (int argc, char *argv[])
       0, MPI_COMM_WORLD);
    elapsed_time += MPI_Wtime();
    if (!id) {
-      printf ("%d primes are less than or equal to %d\n",
+      printf ("%llu primes are less than or equal to %llu\n",
          global_count, n);
       printf ("Total elapsed time: %10.6f\n", elapsed_time);
    }
