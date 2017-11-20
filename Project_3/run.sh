@@ -1,4 +1,5 @@
 #!/bin/sh
+PBS_O_WORKDIR="/home/dtara003/CS-202/Project_3"
 
 cd $PBS_O_WORKDIR
 
@@ -12,7 +13,8 @@ mpicc -o part1 part1.c -lm
 #mpicc -o part2 part2.c -lm
 #mpicc -o part3 part3.c -lm
 
-joba=$(qsub p11job)
-#jobb=$(qsub -W depend=afterany:$(joba) p12job)
-#jobc=$(qsub -W depend=afterany:$(jobb) p14job)
-#jobd=$(qsub -W depend=afterany:$(jobc) p18job)
+jobid=$(qsub p11job)
+joba=$(qsub -W depend=afterany:${jobid} p12job)
+jobb=$(qsub -W depend=afterany:${joba} p14job)
+jobc=$(qsub -W depend=afterany:${jobb} p18job)
+
