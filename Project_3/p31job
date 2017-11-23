@@ -7,7 +7,8 @@ PBS_O_WORKDIR=/home/dtara003/CS-202/Project_3
 
 cd $PBS_O_WORKDIR
 
-echo "PART 1" >> results.txt
+echo >> results.txt
+echo "PART 3" >> results.txt
 echo >> results.txt
 
-mpirun ./part1 10000000000 >> results.txt
+mpirun ./part3 10000000000 >> results.txt
