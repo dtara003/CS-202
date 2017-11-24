@@ -1,5 +1,5 @@
 #!/bin/sh
-PBS_O_WORKDIR="/home/dtara003/CS-202/Project_3"
+PBS_O_WORKDIR="/home/kaimo901/test/dtara003"
 
 cd $PBS_O_WORKDIR
 
