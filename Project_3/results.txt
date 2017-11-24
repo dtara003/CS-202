@@ -19,3 +19,14 @@ Total elapsed time:  13.849682
 Total elapsed time:   6.832508
 455052511 primes are less than or equal to 10000000000
 Total elapsed time:   3.356509
+
+PART 3
+
+455052511 primes are less than or equal to 10000000000
+Total elapsed time:   7.534427
+455052511 primes are less than or equal to 10000000000
+Total elapsed time:   5.812592
+455052511 primes are less than or equal to 10000000000
+Total elapsed time:   1.953036
+455052511 primes are less than or equal to 10000000000
+Total elapsed time:   1.025823
