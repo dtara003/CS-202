@@ -13,19 +13,17 @@ mpicc -o part1 part1.c -lm
 mpicc -o part2 part2.c -lm
 mpicc -o part3 part3.c -lm
 
-#jobid1=$(qsub p11job)
-#joba1=$(qsub -W depend=afterany:${jobid1} p12job)
-#jobb1=$(qsub -W depend=afterany:${joba1} p14job)
-#jobc1=$(qsub -W depend=afterany:${jobb1} p18job)
+jobid1=$(qsub p11job)
+joba1=$(qsub -W depend=afterany:${jobid1} p12job)
+jobb1=$(qsub -W depend=afterany:${joba1} p14job)
+jobc1=$(qsub -W depend=afterany:${jobb1} p18job)
 
-#jobid2=$(qsub -W depend=afterany:${jobc1} p21job)
-#jobid2=$(qsub p21job)
-#joba2=$(qsub -W depend=afterany:${jobid2} p22job)
-#jobb2=$(qsub -W depend=afterany:${joba2} p24job)
-#jobc2=$(qsub -W depend=afterany:${jobb2} p28job)
+jobid2=$(qsub -W depend=afterany:${jobc1} p21job)
+joba2=$(qsub -W depend=afterany:${jobid2} p22job)
+jobb2=$(qsub -W depend=afterany:${joba2} p24job)
+jobc2=$(qsub -W depend=afterany:${jobb2} p28job)
 
-#jobid3=$(qsub -W depend=afterany:${jobc2} p31job)
-jobid3=$(qsub p31job)
+jobid3=$(qsub -W depend=afterany:${jobc2} p31job)
 joba3=$(qsub -W depend=afterany:${jobid3} p32job)
 jobb3=$(qsub -W depend=afterany:${joba3} p34job)
 jobc3=$(qsub -W depend=afterany:${jobb3} p38job)

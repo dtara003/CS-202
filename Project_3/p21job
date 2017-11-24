@@ -12,3 +12,4 @@ echo "PART 2" >> results.txt
 echo >> results.txt
 
 mpirun ./part2 10000000000 >> results.txt
+echo ", total nodes: 1" >> results.txt

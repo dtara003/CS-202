@@ -1,32 +1,20 @@
 PART 1
 
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:  16.823819
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   8.929237
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   7.106656
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   3.562613
+The total number of primes: 455052511, total time:  17.160404, total nodes: 1
+The total number of primes: 455052511, total time:   9.068721, total nodes: 2
+The total number of primes: 455052511, total time:   7.522774, total nodes: 4
+The total number of primes: 455052511, total time:   3.583751, total nodes: 8
 
 PART 2
 
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:  15.746972
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:  13.849682
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   6.832508
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   3.356509
+The total number of primes: 455052511, total time:  15.467796, total nodes: 1
+The total number of primes: 455052511, total time:   7.727453, total nodes: 2
+The total number of primes: 455052511, total time:   6.797299, total nodes: 4
+The total number of primes: 455052511, total time:   3.303839, total nodes: 8
 
 PART 3
 
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   7.534427
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   5.812592
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   1.953036
-455052511 primes are less than or equal to 10000000000
-Total elapsed time:   1.025823
+The total number of primes: 455052511, total time:   7.383207, total nodes: 1
+The total number of primes: 455052511, total time:   3.726875, total nodes: 2
+The total number of primes: 455052511, total time:   2.861619, total nodes: 4
+The total number of primes: 455052511, total time:   0.971926, total nodes: 8
